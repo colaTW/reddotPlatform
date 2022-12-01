@@ -1,0 +1,15 @@
+
+flutter build ios --verbose  
+
+/ios
+
+pod deintegrate
+pod install
+
+
+flutter clean
+rm -Rf Pods
+rm -Rf Podfile.lock
+rm -rf Flutter/Flutter.framewor
+rm -rf Flutter/App.framework 
+rm -Rf Podfile
