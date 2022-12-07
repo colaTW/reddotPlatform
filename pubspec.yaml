@@ -53,7 +53,7 @@ dependencies:
   vs_scrollbar: any
   pinch_zoom : any
   firebase_database: any
-  firebase_messaging: 5.1.6
+  firebase_messaging: ^8.0.0-dev.14
   flutter_local_notifications: ^0.9.1
 
 

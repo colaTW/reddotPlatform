@@ -1,7 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/APIs.dart';
 import 'package:flutterapp/message.dart';
+import 'package:flutterapp/pages/adminLogin.dart';
+import 'package:flutterapp/pages/setDomain.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'pages/fisrtpage.dart';
@@ -29,34 +32,33 @@ class _MessagingWidgetState extends State<MessagingWidget> {
       notify_token=token;
       print("token"+token);});
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        final notification = message['notification'];
-        Alert(context: context, title: notification['title'], desc: notification['body'],type:AlertType.warning,buttons: []).show();
-
-        setState(() {
-          messages.add(Message1(
-              title: notification['title'], body: notification['body']));
-        });
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-
-        final notification = message['data'];
-        setState(() {
-          messages.add(Message1(
-            title: '${notification['title']}',
-            body: '${notification['body']}',
-          ));
-        });
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
-    );
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      print("onMessage: $message");
+      RemoteNotification  notification = message.notification;
+      Alert(context: context, title: notification.title, desc: notification.body,type:AlertType.warning,buttons: []).show();
+      setState(() {
+        messages.add(Message1(
+            title: notification.title, body: notification.body));
+      });
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async{
+      print("onMessageOpenedApp: $message");
+      RemoteNotification  notification = message.notification;
+      setState(() {
+        messages.add(Message1(
+          title: '${notification.title}',
+          body: '${notification.body}',
+        ));
+      });
+    });
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
+
+    /*if(APIs().getDomainIP()==""){
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => setDoamin()));
+    }*/
+
   }
 
   @override
@@ -75,7 +77,16 @@ class _MessagingWidgetState extends State<MessagingWidget> {
                 (
                 mainAxisAlignment:MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(child:Image.asset("assets/images/home/reddotLogo.png",)),
+                  GestureDetector(
+                    child: Image.asset("assets/images/home/reddotLogo.png",),
+                    onTap:()async{
+
+                    },
+                      onLongPress:(){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => adminLogin()));
+                      }
+                  )
                 ],),),
             titleSpacing: 0.0,
             automaticallyImplyLeading: false,

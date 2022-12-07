@@ -9,6 +9,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 class APIs {
   var url = 'baotai.edwardforce.tw';
   static  var filelist=List();
+  getDomainIP() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    url=(prefs.getString("DomainIP")??"");
+    return url;
+  }
   login(String ac,String pas) async{
     var params = Map<String, String>();
     params["account"] = ac;

@@ -16,6 +16,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutterapp/messaging_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 
@@ -43,6 +44,8 @@ class MyHandler extends ReportHandler{
 
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   /// STEP 1. Create catcher configuration.
   /// Debug configuration with dialog report mode and console handler. It will show dialog and once user accepts it, error will be shown   /// in console.
   CatcherOptions debugOptions =

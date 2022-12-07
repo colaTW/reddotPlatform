@@ -13,7 +13,6 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-
         android:label="ReddotPlatform"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
